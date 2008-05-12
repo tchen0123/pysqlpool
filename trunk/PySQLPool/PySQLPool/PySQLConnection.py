@@ -32,7 +32,7 @@ class PySQLConnection(object):
         self.schema = schema
         self.port = port
         
-        self.key = md5.new(self.host + self.username + self.password + self.schema + self.port).hexdigest()
+        self.key = md5.new(str(self.host) + str(self.username) + str(self.password) + str(self.schema) + str(self.port)).hexdigest()
 
 
   
