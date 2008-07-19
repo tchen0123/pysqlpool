@@ -18,16 +18,18 @@ class PySQLQuery(object):
     @version: 0.1
     """
     
-    def __init__(self, PySQLConnectionObj):
+    def __init__(self, PySQLConnectionObj, commitOnEnd = False):
         """
         Constructor for PySQLQuery Class
         
         @param PySQLConnectionObj: PySQLConnection Object representing your connection string
+        @param commitOnEnd: Default False, When query is complete do you wish to auto commit. This is a one time auto commit
         @author: Nick Verbeck
         @since: 5/12/2008
         """
         self.Pool = PySQLPool()
         self.connInfo = PySQLConnectionObj
+        self.commitOnEnd = commitOnEnd
         self.record = {}
         self.rowcount = 0
         self.affectedRows = 0
@@ -83,7 +85,7 @@ class PySQLQuery(object):
         except Exception, e:
             pass
         finally:
-            if self.connInfo.commitOnEnd is True:
+            if self.connInfo.commitOnEnd is True or self.commitOnEnd is True:
                 self.conn.Commit()
                 
             self.Pool.returnConnection(self.conn)

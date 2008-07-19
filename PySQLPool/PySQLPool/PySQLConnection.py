@@ -23,9 +23,10 @@ class PySQLConnection(object):
         @param password: Password to use to connect to database 
         @param schema: Schema to use
         @param port: Port to connect on
-        @param commitOnEnd: Default False, When query is complete do you wish to auto commit.
+        @param commitOnEnd: Default False, When query is complete do you wish to auto commit. This is a always on for this connection
         @author: Nick Verbeck
         @since: 5/12/2008
+        @updated: 7/19/2008 - Added commitOnEnd
         """
         self.host = host
         self.username = username
