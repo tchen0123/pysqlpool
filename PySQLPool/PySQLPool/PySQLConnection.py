@@ -14,7 +14,7 @@ class PySQLConnection(object):
     @version: 0.1
     """
     
-    def __init__(self, host='localhost', username='root', password='', schema='', port=3306):
+    def __init__(self, host='localhost', username='root', password='', schema='', port=3306, commitOnEnd = False):
         """
         Constructor for the PySQLConnection class
         
@@ -23,6 +23,7 @@ class PySQLConnection(object):
         @param password: Password to use to connect to database 
         @param schema: Schema to use
         @param port: Port to connect on
+        @param commitOnEnd: Default False, When query is complete do you wish to auto commit.
         @author: Nick Verbeck
         @since: 5/12/2008
         """
@@ -31,8 +32,9 @@ class PySQLConnection(object):
         self.password = password
         self.schema = schema
         self.port = port
+        self.commitOnEnd = commitOnEnd
         
-        self.key = md5.new(str(self.host) + str(self.username) + str(self.password) + str(self.schema) + str(self.port)).hexdigest()
+        self.key = md5.new(str(self.host) + str(self.username) + str(self.password) + str(self.schema) + str(self.port) + str(self.commitOnEnd)).hexdigest()
 
 
   
