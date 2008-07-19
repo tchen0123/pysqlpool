@@ -1,0 +1,13 @@
+#labels Featured,Phase-Deploy
+How to install PySQLPool
+
+= Introduction =
+
+This page will guide you though the process of setting up and installing PySQLPool using distutils and the setup.py file.
+
+= Details =
+
+ # Extract the Tar/Gzip file
+ # Change directory to you new extracted folder
+ # Run `python setup.py install`
+ # Your Done
