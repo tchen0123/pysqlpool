@@ -1,0 +1,19 @@
+List of features
+
+= Introduction =
+
+Here is the working list of features that are implemented or in progress of being implemented.
+
+*Note: Please do not modify to submit feature requests. Please do those though the Issue panle*
+
+
+= Features =
+
+ # Connection Management
+  # Connection Pooling
+  # Auto Reconnect for dead connections
+ # Cursor management. So all you have to do is write queries and execute them
+ # Transaction Support
+ # Auto Commit Support
+
+= Upcoming Features =
