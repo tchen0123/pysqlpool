@@ -34,6 +34,7 @@ class PySQLQuery(object):
         self.rowcount = 0
         self.affectedRows = 0
         self.conn = None
+        self.lastError = None
         
     def __del__(self):
         """
@@ -65,6 +66,7 @@ class PySQLQuery(object):
                 time.sleep(1)
                 
         try:
+            self.lastError = None
             #Acquire Connection Lock to be thread safe
             self.conn.lock.acquire()
             
@@ -83,7 +85,8 @@ class PySQLQuery(object):
             
             cursor.close()
         except Exception, e:
-            pass
+            self.lastError = e
+            self.affectedRows = None
         finally:
             if self.connInfo.commitOnEnd is True or self.commitOnEnd is True:
                 self.conn.Commit()
@@ -91,3 +94,7 @@ class PySQLQuery(object):
             self.Pool.returnConnection(self.conn)
             self.conn.lock.release()
             self.conn = None
+            if self.lastError is not None:
+                raise 
+            else:
+                return self.affectedRows
