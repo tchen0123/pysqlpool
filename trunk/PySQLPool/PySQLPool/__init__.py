@@ -30,7 +30,9 @@ def getNewQuery(connection = None, host='localhost', username='root', password='
     if connection is None:
         return PySQLQuery.PySQLQuery(getNewConnection(host=host, username = username,  password = password, schema = schema, port = port), commitOnEnd = commitOnEnd)
     else:
-        return PySQLQuery.PySQLQuery(connection)
+        #Updated 7/24/08 to include commitOnEnd here
+        #-Chandler Prall
+        return PySQLQuery.PySQLQuery(connection, commitOnEnd = commitOnEnd)
 
 import PySQLPool
 def getNewPool():
