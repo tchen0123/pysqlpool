@@ -3,7 +3,11 @@
 @since: date 5/12/2008
 """
 
-import thread, time, md5, MySQLdb, sys
+import thread
+import time
+import md5
+import MySQLdb
+import sys
 from PySQLPool import PySQLPool
 
 class PySQLQuery(object):
@@ -98,3 +102,9 @@ class PySQLQuery(object):
                 raise 
             else:
                 return self.affectedRows
+            
+    def escape_string(self, string):
+        return MySQLdb.escape_string(string)
+    
+    def escape(self, string):
+        return MySQLdb.escape(string)
