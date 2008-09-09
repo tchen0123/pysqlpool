@@ -84,7 +84,7 @@ class PySQLQuery(object):
             else:
                 return self.affectedRows
             
-    def executemany(self, query, args):
+    def executeMany(self, query, args):
         self.lastError = None
         self.affectedRows = None
         self.rowcount = None
@@ -96,6 +96,31 @@ class PySQLQuery(object):
             #Execute query and store results
             cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.executemany(query, args)
+            cursor.close()
+        except Exception, e:
+            self.lastError = e
+        finally:
+            self._ReturnConnection()
+            if self.lastError is not None:
+                raise self.lastError
+            
+    def executeMulti(self, queries):
+        self.lastError = None
+        self.affectedRows = 0
+        self.rowcount = None
+        self.record = None
+        
+        try:
+            self._GetConnection()
+            self.conn.query = query
+            #Execute query and store results
+            cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+            for query in queries:
+                if query.__class__ == [].__class__:
+                    self.affectedRows += cursor.execute(query[0], query[1])
+                else:
+                    self.affectedRows += cursor.execute(query)
+                
             cursor.close()
         except Exception, e:
             self.lastError = e

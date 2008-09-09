@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='PySQLPool',
-      version='0.2.1',
+      version='0.3',
       description='Python MySQL Connection Pooling and MySQL Query management',
       author='Nick Verbeck',
       author_email='nick@skeletaldesign.com',
