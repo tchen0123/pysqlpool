@@ -60,23 +60,9 @@ class PySQLQuery(object):
         @since: 5/12/2008
         """
         
-        #Attempt to get a connection. If all connections are in use and we have reached the max number of connections,
-        #we wait 1 second and try again.
-        while self.conn is None:
-            self.conn = self.Pool.GetConnection(self.connInfo)
-            if self.conn is not None:
-                break
-            else:
-                time.sleep(1)
-                
+        self.lastError = None
         try:
-            self.lastError = None
-            #Acquire Connection Lock to be thread safe
-            self.conn.lock.acquire()
-            
-            #Test if connection is still active. If not reconnect.
-            if self.conn.TestConnection() is False:
-                self.conn.ReConnect()
+            self._GetConnection()
             
             self.conn.query = query
             
@@ -92,16 +78,57 @@ class PySQLQuery(object):
             self.lastError = e
             self.affectedRows = None
         finally:
+            self._ReturnConnection()
+            if self.lastError is not None:
+                raise self.lastError
+            else:
+                return self.affectedRows
+            
+    def executemany(self, query, args):
+        self.lastError = None
+        self.affectedRows = None
+        self.rowcount = None
+        self.record = None
+        
+        try:
+            self._GetConnection()
+            self.conn.query = query
+            #Execute query and store results
+            cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.executemany(query, args)
+            cursor.close()
+        except Exception, e:
+            self.lastError = e
+        finally:
+            self._ReturnConnection()
+            if self.lastError is not None:
+                raise self.lastError
+    
+    def _GetConnection(self):
+        #Attempt to get a connection. If all connections are in use and we have reached the max number of connections,
+        #we wait 1 second and try again.
+        while self.conn is None:
+            self.conn = self.Pool.GetConnection(self.connInfo)
+            if self.conn is not None:
+                break
+            else:
+                time.sleep(1)
+                
+        #Acquire Connection Lock to be thread safe
+        self.conn.lock.acquire()
+        
+        #Test if connection is still active. If not reconnect.
+        if self.conn.TestConnection() is False:
+            self.conn.ReConnect()
+            
+    def _ReturnConnection(self):
+        if self.conn is not None:
             if self.connInfo.commitOnEnd is True or self.commitOnEnd is True:
                 self.conn.Commit()
-                
+                    
             self.Pool.returnConnection(self.conn)
             self.conn.lock.release()
             self.conn = None
-            if self.lastError is not None:
-                raise 
-            else:
-                return self.affectedRows
             
     def escape_string(self, string):
         return MySQLdb.escape_string(string)
