@@ -127,10 +127,10 @@ class PySQLQuery(object):
         
         try:
             self._GetConnection()
-            self.conn.query = query
             #Execute query and store results
             cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
             for query in queries:
+                self.conn.query = query
                 if query.__class__ == [].__class__:
                     self.affectedRows += cursor.execute(query[0], query[1])
                 else:
