@@ -52,3 +52,13 @@ def terminatePool():
     @since: 5/12/2008
     """
     PySQLPool.PySQLPool().Terminate()
+    
+def commitPool():
+    """
+    Commits All changes in pool
+    
+    @author: Nick Verbeck
+    @since: 9/12/2008
+    """
+    PySQLPool.PySQLPool().Commit()
+    

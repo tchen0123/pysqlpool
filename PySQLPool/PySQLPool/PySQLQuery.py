@@ -85,6 +85,15 @@ class PySQLQuery(object):
                 return self.affectedRows
             
     def executeMany(self, query, args):
+        """
+        Executes a series of the same Insert Statments
+        
+        Each tuple in the args list will be applied to the query and executed.
+        This is the equivilant of MySQLDB.cursor.executemany()
+        
+        @author: Nick Verbeck
+        @since: 9/7/2008
+        """
         self.lastError = None
         self.affectedRows = None
         self.rowcount = None
@@ -105,6 +114,12 @@ class PySQLQuery(object):
                 raise self.lastError
             
     def executeMulti(self, queries):
+        """
+        Execute a series of Deletes,Inserts, & Updates in the Queires List
+        
+        @author: Nick Verbeck
+        @since: 9/7/2008
+        """
         self.lastError = None
         self.affectedRows = 0
         self.rowcount = None
@@ -130,6 +145,12 @@ class PySQLQuery(object):
                 raise self.lastError
     
     def _GetConnection(self):
+        """
+        Retieves a prelocked connection from the Pool
+        
+        @author: Nick Verbeck
+        @since: 9/7/2008
+        """
         #Attempt to get a connection. If all connections are in use and we have reached the max number of connections,
         #we wait 1 second and try again.
         while self.conn is None:
@@ -147,6 +168,12 @@ class PySQLQuery(object):
             self.conn.ReConnect()
             
     def _ReturnConnection(self):
+        """
+        Returns a connection back to the pool
+        
+        @author: Nick Verbeck
+        @since: 9/7/2008
+        """
         if self.conn is not None:
             if self.connInfo.commitOnEnd is True or self.commitOnEnd is True:
                 self.conn.Commit()
@@ -156,7 +183,23 @@ class PySQLQuery(object):
             self.conn = None
             
     def escape_string(self, string):
+        """
+        Escapes a string for use in a query
+        
+        This is the equivilate and MySQLdb.escape_string()
+        
+        @author: Nick Verbeck
+        @since: 9/7/2008
+        """
         return MySQLdb.escape_string(string)
     
     def escape(self, string):
+        """
+        Escapes a string for use in a query
+        
+        This is the equivilate and MySQLdb.escape()
+        
+        @author: Nick Verbeck
+        @since: 9/7/2008
+        """
         return MySQLdb.escape(string)
