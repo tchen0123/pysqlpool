@@ -1,7 +1,7 @@
 """
 @author: Nick Verbeck
 @since: date 5/12/2008
-@version: 0.1
+@version: 0.2
 """
 
 import MySQLdb, thread, md5
@@ -16,7 +16,7 @@ class PySQLPool(object):
     
     @author: Nick Verbeck
     @since: 5/18/2008
-    @version: 0.1
+    @version: 0.2
     """
     
     #Dictionary used for storing all Connection information
@@ -53,12 +53,29 @@ class PySQLPool(object):
         @author: Nick Verbeck
         @since: 5/12/2008
         """
-        
+        self.Commit()
         for key in self.__Pool['conn']:
             try:
                 for conn in self.__Pool['conn'][key]:
                     try:
                         self.__Pool['conn'][key][conn].Close()
+                    except Exception, e:
+                        pass
+            except Exception, e:
+                pass
+            
+    def Commit(self):
+        """
+        Commits all currently open connections
+        
+        @author: Nick Verbeck
+        @since: 9/12/2008
+        """
+        for key in self.__Pool['conn']:
+            try:
+                for conn in self.__Pool['conn'][key]:
+                    try:
+                        self.__Pool['conn'][key][conn].Commit()
                     except Exception, e:
                         pass
             except Exception, e:
