@@ -61,6 +61,8 @@ class PySQLQuery(object):
         """
         
         self.lastError = None
+        cursor = None
+        
         try:
             self._GetConnection()
             
@@ -72,12 +74,12 @@ class PySQLQuery(object):
             self.rowcount = cursor.rowcount
             
             self.record = cursor.fetchall()
-            
-            cursor.close()
         except Exception, e:
             self.lastError = e
             self.affectedRows = None
         finally:
+            if cursor is not None:
+                cursor.close()
             self._ReturnConnection()
             if self.lastError is not None:
                 raise self.lastError
@@ -98,6 +100,7 @@ class PySQLQuery(object):
         self.affectedRows = None
         self.rowcount = None
         self.record = None
+        cursor = None
         
         try:
             self._GetConnection()
@@ -105,10 +108,11 @@ class PySQLQuery(object):
             #Execute query and store results
             cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
             cursor.executemany(query, args)
-            cursor.close()
         except Exception, e:
             self.lastError = e
         finally:
+            if cursor is not None:
+                cursor.close()
             self._ReturnConnection()
             if self.lastError is not None:
                 raise self.lastError
@@ -124,6 +128,7 @@ class PySQLQuery(object):
         self.affectedRows = 0
         self.rowcount = None
         self.record = None
+        cursor = None
         
         try:
             self._GetConnection()
@@ -135,11 +140,11 @@ class PySQLQuery(object):
                     self.affectedRows += cursor.execute(query[0], query[1])
                 else:
                     self.affectedRows += cursor.execute(query)
-                
-            cursor.close()
         except Exception, e:
             self.lastError = e
         finally:
+            if cursor is not None:
+                cursor.close()
             self._ReturnConnection()
             if self.lastError is not None:
                 raise self.lastError
