@@ -14,28 +14,51 @@ class PySQLConnection(object):
     @version: 0.1
     """
     
-    def __init__(self, host='localhost', username='root', password='', schema='', port=3306, commitOnEnd = False):
+    def __init__(self, commitOnEnd = False, *args, **kargs):
         """
         Constructor for the PySQLConnection class
-        
-        @param host: Hostname for your database
-        @param username: Username to use to connect to database
-        @param password: Password to use to connect to database 
-        @param schema: Schema to use
-        @param port: Port to connect on
         @param commitOnEnd: Default False, When query is complete do you wish to auto commit. This is a always on for this connection
         @author: Nick Verbeck
         @since: 5/12/2008
         @updated: 7/19/2008 - Added commitOnEnd
+        @updated: 10/26/2008 - Switched to use *args and **kargs
         """
-        self.host = host
-        self.username = username
-        self.password = password
-        self.schema = schema
-        self.port = port
+        self.info = kargs
+        if not self.info.has_key('host'):
+            self.info['host'] = 'localhost'
+        if not self.info.has_key('user'):
+            self.info['user'] = 'root'
+        if not self.info.has_key('pass'):
+            self.info['pass'] = ''
+        if not self.info.has_key('db'):
+            self.info['db'] = ''
+        if not self.info.has_key('port'):
+            self.info['port'] = 3306
+            
+        #Support Legacy Username
+        if self.info.has_key('username'):
+            self.info['user'] = self.info['username']
+        #Support Legacy Password
+        if self.info.has_key('password'):
+            self.info['pass'] = self.info['password']
+        #Support Legacy Schema
+        if self.info.has_key('schema'):
+            self.info['db'] = self.info['schema']
+            
         self.commitOnEnd = commitOnEnd
+        hashStr = ''
+        for key in self.info:
+            if key != 'username' and key != 'password' and key != 'schema':
+                hashStr += self.info[key]
         
-        self.key = md5.new(str(self.host) + str(self.username) + str(self.password) + str(self.schema) + str(self.port) + str(self.commitOnEnd)).hexdigest()
+        self.key = md5.new(hashStr).hexdigest()
+        
+    def __getattr__(self, name):
+        try:
+            return self.info[name]
+        except Exception, e:
+            return None
+            
 
 
   
@@ -75,11 +98,7 @@ class PySQLConnectionManager:
         @author: Nick Verbeck
         @since: 5/12/2008
         """
-        self.connection = MySQLdb.connect(host=self.connectionInfo.host, 
-                                          user=self.connectionInfo.username, 
-                                          passwd=self.connectionInfo.password, 
-                                          db=self.connectionInfo.schema,
-                                          port=self.connectionInfo.port)
+        self.connection = MySQLdb.connect(*[], **self.connectionInfo.info)
         
     def ReConnect(self):
         """
