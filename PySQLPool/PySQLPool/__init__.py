@@ -1,3 +1,6 @@
+__version__ = '0.3'
+__author__ = 'Nick Verbeck <nick@skeletaldesign.com>'
+
 import PySQLConnection
 
 def getNewConnection(host='localhost', username='root', password='', schema='', port=3306, commitOnEnd = False):
@@ -60,5 +63,4 @@ def commitPool():
     @author: Nick Verbeck
     @since: 9/12/2008
     """
-    PySQLPool.PySQLPool().Commit()
-    
+    PySQLPool.PySQLPool().Commit()    
