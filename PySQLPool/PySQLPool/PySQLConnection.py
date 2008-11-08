@@ -49,7 +49,7 @@ class PySQLConnection(object):
         hashStr = ''
         for key in self.info:
             if key != 'username' and key != 'password' and key != 'schema':
-                hashStr += self.info[key]
+                hashStr += str(self.info[key])
         
         self.key = md5.new(hashStr).hexdigest()
         
