@@ -23,33 +23,38 @@ class PySQLConnection(object):
         @updated: 7/19/2008 - Added commitOnEnd
         @updated: 10/26/2008 - Switched to use *args and **kargs
         """
-        self.info = kargs
-        if not self.info.has_key('host'):
-            self.info['host'] = 'localhost'
-        if not self.info.has_key('user'):
-            self.info['user'] = 'root'
-        if not self.info.has_key('pass'):
-            self.info['pass'] = ''
-        if not self.info.has_key('db'):
-            self.info['db'] = ''
-        if not self.info.has_key('port'):
-            self.info['port'] = 3306
+        self.info = {
+                     'host': 'localhost',
+                     'user': 'root',
+                     'pass': '',
+                     'db': '',
+                     'port': 3306
+                     }
+        if kargs.has_key('host'):
+            self.info['host'] = kargs['host']
+        if kargs.has_key('user'):
+            self.info['user'] = kargs['user']
+        if kargs.has_key('pass'):
+            self.info['pass'] = kargs['pass']
+        if kargs.has_key('db'):
+            self.info['db'] = kargs['db']
+        if kargs.has_key('port'):
+            self.info['port'] = int(kargs['port'])
             
         #Support Legacy Username
-        if self.info.has_key('username'):
-            self.info['user'] = self.info['username']
+        if kargs.has_key('username'):
+            self.info['user'] = kargs['username']
         #Support Legacy Password
-        if self.info.has_key('password'):
-            self.info['pass'] = self.info['password']
+        if kargs.has_key('password'):
+            self.info['pass'] = kargs['password']
         #Support Legacy Schema
-        if self.info.has_key('schema'):
-            self.info['db'] = self.info['schema']
+        if kargs.has_key('schema'):
+            self.info['db'] = kargs['schema']
             
         self.commitOnEnd = commitOnEnd
         hashStr = ''
         for key in self.info:
-            if key != 'username' and key != 'password' and key != 'schema':
-                hashStr += str(self.info[key])
+            hashStr += str(self.info[key])
         
         self.key = md5.new(hashStr).hexdigest()
         
