@@ -26,7 +26,7 @@ class PySQLConnection(object):
         self.info = {
                      'host': 'localhost',
                      'user': 'root',
-                     'pass': '',
+                     'passwd': '',
                      'db': '',
                      'port': 3306
                      }
@@ -34,8 +34,8 @@ class PySQLConnection(object):
             self.info['host'] = kargs['host']
         if kargs.has_key('user'):
             self.info['user'] = kargs['user']
-        if kargs.has_key('pass'):
-            self.info['pass'] = kargs['pass']
+        if kargs.has_key('passwd'):
+            self.info['passwd'] = kargs['passwd']
         if kargs.has_key('db'):
             self.info['db'] = kargs['db']
         if kargs.has_key('port'):
@@ -46,7 +46,7 @@ class PySQLConnection(object):
             self.info['user'] = kargs['username']
         #Support Legacy Password
         if kargs.has_key('password'):
-            self.info['pass'] = kargs['password']
+            self.info['passwd'] = kargs['password']
         #Support Legacy Schema
         if kargs.has_key('schema'):
             self.info['db'] = kargs['schema']
