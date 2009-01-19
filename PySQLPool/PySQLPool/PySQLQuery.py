@@ -69,7 +69,7 @@ class PySQLQuery(object):
         if logging_path is not None:
         	try:
         		file = os.path.join(logging_path, 'PySQLPool.Query.log')
-        		fp = open(file, 'w+')
+        		fp = open(file, 'a+')
         		fp.write("=== Query ===\n")
         		fp.write(str(query)+"\n")
         		fp.write("=== Args ===\n")
