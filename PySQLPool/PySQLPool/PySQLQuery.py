@@ -9,6 +9,9 @@ import md5
 import MySQLdb
 import sys
 from PySQLPool import PySQLPool
+import os.path
+
+logging_path = None
 
 class PySQLQuery(object):
     """
@@ -62,6 +65,18 @@ class PySQLQuery(object):
         
         self.lastError = None
         cursor = None
+        
+        if logging_path is not None:
+        	try:
+        		file = os.path.join(logging_path, 'PySQLPool.Query.log')
+        		fp = open(file, 'w+')
+        		fp.write("=== Query ===\n")
+        		fp.write(str(query)+"\n")
+        		fp.write("=== Args ===\n")
+        		fp.write(str(args)+"\n\n")
+        		fp.close()
+        	except Exception, e:
+        		pass
         
         try:
             self._GetConnection()
