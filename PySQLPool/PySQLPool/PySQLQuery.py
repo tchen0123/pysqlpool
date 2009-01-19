@@ -73,7 +73,7 @@ class PySQLQuery(object):
         		fp.write("=== Query ===\n")
         		fp.write(str(query)+"\n")
         		fp.write("=== Args ===\n")
-        		fp.write(str(args)+"\n\n")
+        		fp.write(str(args)+"\n")
         		fp.close()
         	except Exception, e:
         		pass
@@ -89,9 +89,30 @@ class PySQLQuery(object):
             self.rowcount = cursor.rowcount
             
             self.record = cursor.fetchall()
+            
+            if logging_path is not None:
+	        	try:
+	        		file = os.path.join(logging_path, 'PySQLPool.Query.log')
+	        		fp = open(file, 'a+')
+	        		fp.write("=== Affected Rows ===\n")
+	        		fp.write(str(self.affectedRows)+"\n")
+	        		fp.write("=== Row Count ===\n")
+	        		fp.write(str(self.rowcount)+"\n")
+	        		fp.close()
+	        	except Exception, e:
+	        		pass
         except Exception, e:
             self.lastError = e
             self.affectedRows = None
+            if logging_path is not None:
+	        	try:
+	        		file = os.path.join(logging_path, 'PySQLPool.Query.log')
+	        		fp = open(file, 'a+')
+	        		fp.write("=== Error ===\n")
+	        		fp.write(str(e.message)+"\n")
+	        		fp.close()
+	        	except Exception, e:
+	        		pass
         finally:
             if cursor is not None:
                 cursor.close()
