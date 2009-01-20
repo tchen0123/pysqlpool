@@ -23,10 +23,6 @@ class PySQLConnection(object):
 		@updated: 7/19/2008 - Added commitOnEnd
 		@updated: 10/26/2008 - Switched to use *args and **kargs
 		"""
-		
-		print "Args:"+ str(args)
-		print "KArgs:"+ str(kargs)
-		
 		self.info = {
 					 'host': 'localhost',
 					 'user': 'root',
@@ -71,9 +67,6 @@ class PySQLConnection(object):
 			return self.info[name]
 		except Exception, e:
 			return None
-			
-
-
   
 import sys, MySQLdb
 from threading import Condition
