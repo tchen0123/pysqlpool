@@ -68,8 +68,10 @@ class PySQLConnection(object):
 		except Exception, e:
 			return None
   
-import sys, MySQLdb
+import sys, MySQLdb, datetime
 from threading import Condition
+
+connection_timeout = datetime.timedelta(seconds=20)
 
 class PySQLConnectionManager:
 	"""
@@ -95,7 +97,12 @@ class PySQLConnectionManager:
 		self.lock = Condition()
 		self.activeConnections = 0
 		self.query = None
+		self.lastConnectionCheck = None
 		self.Connect()
+		
+	def updateCheckTime(self):
+		self.lastConnectionCheck = datetime.datetime.now()
+		
 		
 	def Connect(self):
 		"""
@@ -105,6 +112,7 @@ class PySQLConnectionManager:
 		@since: 5/12/2008
 		"""
 		self.connection = MySQLdb.connect(*[], **self.connectionInfo.info)
+		self.updateCheckTime()
 		
 	def ReConnect(self):
 		"""
@@ -127,13 +135,17 @@ class PySQLConnectionManager:
 		if self.connection is None:
 			return False
 		else:
-			try:
-				cursor = self.connection.cursor(MySQLdb.cursors.DictCursor)
-				cursor.execute('select current_user')
+			if (datetime.datetime.now() - self.lastConnectionCheck) >= connection_timeout:
+				try:
+					cursor = self.connection.cursor(MySQLdb.cursors.DictCursor)
+					cursor.execute('select current_user')
+					self.updateCheckTime()
+					return True
+				except Exception, e:
+					self.connection = None
+					return False
+			else:
 				return True
-			except Exception, e:
-				self.connection = None
-				return False
 			
 	def Commit(self):
 		"""
@@ -144,6 +156,7 @@ class PySQLConnectionManager:
 		"""
 		try:
 			self.connection.commit()
+			self.updateCheckTime()
 		except Exception, e:
 			pass
 	
