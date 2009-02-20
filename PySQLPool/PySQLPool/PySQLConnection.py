@@ -142,6 +142,7 @@ class PySQLConnectionManager:
 					self.updateCheckTime()
 					return True
 				except Exception, e:
+					self.connection.close()
 					self.connection = None
 					return False
 			else:
