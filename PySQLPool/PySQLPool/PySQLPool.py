@@ -64,6 +64,27 @@ class PySQLPool(object):
 			except Exception, e:
 				pass
 		self.__Pool['conn'] = {}
+		
+	def Cleanup(self):
+		"""
+		Cleanup Timed out connections
+		
+		Loop though all the connections and test if still active. If inactive close socket.
+		
+		@author: Nick Verbeck
+		@since: 2/20/2009
+		"""
+		self.Commit()
+		for key in self.__Pool['conn']:
+			try:
+				for conn in self.__Pool['conn'][key]:
+					try:
+						self.__Pool['conn'][key][conn].TestConnection()
+					except Exception, e:
+						pass
+			except Exception, e:
+				pass
+		self.__Pool['conn'] = {}
 			
 	def Commit(self):
 		"""

@@ -78,3 +78,12 @@ def commitPool():
 	@since: 9/12/2008
 	"""
 	PySQLPool.PySQLPool().Commit()	
+	
+def cleanupPool():
+	"""
+	Cleanup connection pool. Closing all inactive connections.
+	
+	@author: Nick Verbeck
+	@since: 9/12/2008
+	"""
+	PySQLPool.PySQLPool().Cleanup()	
