@@ -69,7 +69,7 @@ class PySQLConnection(object):
 			return None
   
 import sys, MySQLdb, datetime
-from threading import Condition
+from threading import Semaphore
 
 connection_timeout = datetime.timedelta(seconds=20)
 
@@ -94,7 +94,7 @@ class PySQLConnectionManager:
 		
 		self.connectionInfo = PySQLConnectionObj
 		self.connection = None
-		self.lock = Condition()
+		self.lock = Semaphore()
 		self.activeConnections = 0
 		self.query = None
 		self.lastConnectionCheck = None
