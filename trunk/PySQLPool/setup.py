@@ -10,5 +10,11 @@ setup(name='PySQLPool',
       author_email='nick@skeletaldesign.com',
       url='http://code.google.com/p/pysqlpool/',
       download_url="http://code.google.com/p/pysqlpool/downloads/list",
+      classifiers = [
+                     'Topic :: Software Development :: Libraries :: Python Modules',
+                     'Topic :: Database',
+                     'Programming Language :: Python',
+                     'Operating System :: OS Independent',
+                     'Development Status :: 5 - Production/Stable'],
       packages=['PySQLPool'],
      )
