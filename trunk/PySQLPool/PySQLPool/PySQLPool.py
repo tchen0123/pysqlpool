@@ -26,7 +26,7 @@ class PySQLPool(object):
 	maxActiveConnections = 10
 	
 	#Max Active Query objects against 1 connection
-	maxActivePerConnection = 2
+	maxActivePerConnection = 1
 	
 	def __init__(self):
 		"""
@@ -125,7 +125,7 @@ class PySQLPool(object):
 		if self.__Pool['conn'].has_key(key):
 			for i in self.__Pool['conn'][key]:
 				#Grab an active connection if maxActivePerConnection is not meet
-				if self.__Pool['conn'][key][i].activeConnections <= self.maxActivePerConnection:
+				if self.__Pool['conn'][key][i].activeConnections < self.maxActivePerConnection:
 					self.__Pool['conn'][key][i].lock.acquire()
 					if self.__Pool['conn'][key][i].TestConnection() is False:
 						self.__Pool['conn'][key][i].ReConnect()

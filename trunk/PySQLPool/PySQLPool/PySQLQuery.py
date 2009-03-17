@@ -53,7 +53,7 @@ class PySQLQuery(object):
 		if self.conn is not None:
 			self.Pool.returnConnection(self.conn)
 		
-	def Query(self, query, args = None):
+	def Query(self, query, *args):
 		"""
 		Execute the passed in query against the database
 		
@@ -85,7 +85,7 @@ class PySQLQuery(object):
 			
 			#Execute query and store results
 			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
-			self.affectedRows = cursor.execute(query, args)
+			self.affectedRows = cursor.execute(query, *args)
 			self.rowcount = cursor.rowcount
 			
 			self.record = cursor.fetchall()
@@ -122,6 +122,48 @@ class PySQLQuery(object):
 				raise self.lastError
 			else:
 				return self.affectedRows
+		
+	def QueryOne(self, query, *args):
+		"""
+		Execute the passed in query against the database. 
+		Uses a Generator & fetchone to reduce your process memory size.
+		
+		@param query: MySQL Query to execute. %s or %(key)s will be replaced by parameter args sequence
+		@param args: Sequence of value to replace in your query. A mapping may also be used but your query must use %(key)s
+		@author: Nick Verbeck
+		@since: 5/12/2008
+		"""
+		
+		self.lastError = None
+		cursor = None
+		try:
+			self._GetConnection()
+			self.conn.query = query
+			#Execute query
+			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+			self.affectedRows = cursor.execute(query, *args)
+			
+			while 1:
+				row = cursor.fetchone()
+				if row is None:
+					break
+				else:
+					self.record = row
+					yield row
+					
+			self.rowcount = cursor.rowcount
+			self.conn.updateCheckTime()
+		except Exception, e:
+			self.lastError = e
+			self.affectedRows = None
+		finally:
+			if cursor is not None:
+				cursor.close()
+			self._ReturnConnection()
+			if self.lastError is not None:
+				raise self.lastError
+			else:
+				raise StopIteration
 			
 	def executeMany(self, query, args):
 		"""
