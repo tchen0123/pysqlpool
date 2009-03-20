@@ -42,6 +42,7 @@ class PySQLQuery(object):
 		self.affectedRows = 0
 		self.conn = None
 		self.lastError = None
+		self.lastInsertID = None
 		
 	def __del__(self):
 		"""
@@ -86,6 +87,7 @@ class PySQLQuery(object):
 			#Execute query and store results
 			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
 			self.affectedRows = cursor.execute(query, *args)
+			self.lastInsertID = self.conn.connection.insert_id()
 			self.rowcount = cursor.rowcount
 			
 			self.record = cursor.fetchall()
