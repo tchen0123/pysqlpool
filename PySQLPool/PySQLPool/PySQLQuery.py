@@ -144,7 +144,7 @@ class PySQLQuery(object):
 			#Execute query
 			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
 			self.affectedRows = cursor.execute(query, *args)
-			
+			self.conn.updateCheckTime()
 			while 1:
 				row = cursor.fetchone()
 				if row is None:
@@ -154,7 +154,6 @@ class PySQLQuery(object):
 					yield row
 					
 			self.rowcount = cursor.rowcount
-			self.conn.updateCheckTime()
 		except Exception, e:
 			self.lastError = e
 			self.affectedRows = None
