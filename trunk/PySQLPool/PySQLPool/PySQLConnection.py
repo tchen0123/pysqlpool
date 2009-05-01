@@ -124,7 +124,7 @@ class PySQLConnectionManager:
 		self.Close()
 		self.Connect()
 		
-	def TestConnection(self):
+	def TestConnection(self, forceCheck = False):
 		"""
 		Tests the current physical connection if it is open and hasn't timed out
 		
@@ -135,7 +135,7 @@ class PySQLConnectionManager:
 		if self.connection is None:
 			return False
 		else:
-			if (datetime.datetime.now() - self.lastConnectionCheck) >= connection_timeout:
+			if forceCheck is True or (datetime.datetime.now() - self.lastConnectionCheck) >= connection_timeout:
 				try:
 					cursor = self.connection.cursor(MySQLdb.cursors.DictCursor)
 					cursor.execute('select current_user')

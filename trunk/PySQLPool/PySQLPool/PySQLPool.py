@@ -79,7 +79,7 @@ class PySQLPool(object):
 			try:
 				for conn in self.__Pool['conn'][key]:
 					try:
-						self.__Pool['conn'][key][conn].TestConnection()
+						self.__Pool['conn'][key][conn].TestConnection(forceCheck=True)
 					except Exception, e:
 						pass
 			except Exception, e:
