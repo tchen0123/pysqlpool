@@ -4,7 +4,6 @@
 @version: 0.2
 """
 
-import MySQLdb, thread, md5
 from threading import Condition
 from PySQLConnection import PySQLConnectionManager
 
