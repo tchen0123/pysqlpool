@@ -74,7 +74,9 @@ class PySQLConnection(object):
 		except Exception, e:
 			return None
   
-import sys, MySQLdb, datetime
+import sys
+import MySQLdb
+import datetime
 from threading import Semaphore
 
 connection_timeout = datetime.timedelta(seconds=20)
