@@ -3,7 +3,10 @@
 @since: 5/12/2008
 """
 
-import md5
+try:
+	from hashlib import md5 
+except Exception, e:
+	import md5
 
 class PySQLConnection(object):
 	"""
