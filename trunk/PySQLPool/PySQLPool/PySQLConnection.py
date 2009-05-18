@@ -63,7 +63,10 @@ class PySQLConnection(object):
 		for key in self.info:
 			hashStr += str(self.info[key])
 		
-		self.key = md5.new(hashStr).hexdigest()
+		try:
+			self.key = md5(hashStr).hexdigest()
+		except Exception, e:
+			self.key = md5.new(hashStr).hexdigest()
 		
 	def __getattr__(self, name):
 		try:
