@@ -3,11 +3,8 @@
 @since: date 5/12/2008
 """
 
-import thread
 import time
-import md5
 import MySQLdb
-import sys
 from PySQLPool import PySQLPool
 import os.path
 
