@@ -77,42 +77,43 @@ class PySQLQuery(object):
 				pass
 		
 		try:
-			self._GetConnection()
-			
-			self.conn.query = query
-			
-			#Execute query and store results
-			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
-			self.affectedRows = cursor.execute(query, *args)
-			self.lastInsertID = self.conn.connection.insert_id()
-			self.rowcount = cursor.rowcount
-			
-			self.record = cursor.fetchall()
-			self.conn.updateCheckTime()
-			
-			if logging_path is not None:
-				try:
-					file = os.path.join(logging_path, 'PySQLPool.Query.log')
-					fp = open(file, 'a+')
-					fp.write("=== Affected Rows ===\n")
-					fp.write(str(self.affectedRows)+"\n")
-					fp.write("=== Row Count ===\n")
-					fp.write(str(self.rowcount)+"\n")
-					fp.close()
-				except Exception, e:
-					pass
-		except Exception, e:
-			self.lastError = e
-			self.affectedRows = None
-			if logging_path is not None:
-				try:
-					file = os.path.join(logging_path, 'PySQLPool.Query.log')
-					fp = open(file, 'a+')
-					fp.write("=== Error ===\n")
-					fp.write(str(e.message)+"\n")
-					fp.close()
-				except Exception, e:
-					pass
+			try:
+				self._GetConnection()
+				
+				self.conn.query = query
+				
+				#Execute query and store results
+				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				self.affectedRows = cursor.execute(query, *args)
+				self.lastInsertID = self.conn.connection.insert_id()
+				self.rowcount = cursor.rowcount
+				
+				self.record = cursor.fetchall()
+				self.conn.updateCheckTime()
+				
+				if logging_path is not None:
+					try:
+						file = os.path.join(logging_path, 'PySQLPool.Query.log')
+						fp = open(file, 'a+')
+						fp.write("=== Affected Rows ===\n")
+						fp.write(str(self.affectedRows)+"\n")
+						fp.write("=== Row Count ===\n")
+						fp.write(str(self.rowcount)+"\n")
+						fp.close()
+					except Exception, e:
+						pass
+			except Exception, e:
+				self.lastError = e
+				self.affectedRows = None
+				if logging_path is not None:
+					try:
+						file = os.path.join(logging_path, 'PySQLPool.Query.log')
+						fp = open(file, 'a+')
+						fp.write("=== Error ===\n")
+						fp.write(str(e.message)+"\n")
+						fp.close()
+					except Exception, e:
+						pass
 		finally:
 			if cursor is not None:
 				cursor.close()
@@ -136,24 +137,25 @@ class PySQLQuery(object):
 		self.lastError = None
 		cursor = None
 		try:
-			self._GetConnection()
-			self.conn.query = query
-			#Execute query
-			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
-			self.affectedRows = cursor.execute(query, *args)
-			self.conn.updateCheckTime()
-			while 1:
-				row = cursor.fetchone()
-				if row is None:
-					break
-				else:
-					self.record = row
-					yield row
-					
-			self.rowcount = cursor.rowcount
-		except Exception, e:
-			self.lastError = e
-			self.affectedRows = None
+			try:
+				self._GetConnection()
+				self.conn.query = query
+				#Execute query
+				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				self.affectedRows = cursor.execute(query, *args)
+				self.conn.updateCheckTime()
+				while 1:
+					row = cursor.fetchone()
+					if row is None:
+						break
+					else:
+						self.record = row
+						yield row
+						
+				self.rowcount = cursor.rowcount
+			except Exception, e:
+				self.lastError = e
+				self.affectedRows = None
 		finally:
 			if cursor is not None:
 				cursor.close()
@@ -180,14 +182,15 @@ class PySQLQuery(object):
 		cursor = None
 		
 		try:
-			self._GetConnection()
-			self.conn.query = query
-			#Execute query and store results
-			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
-			cursor.executemany(query, args)
-			self.conn.updateCheckTime()
-		except Exception, e:
-			self.lastError = e
+			try:
+				self._GetConnection()
+				self.conn.query = query
+				#Execute query and store results
+				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				cursor.executemany(query, args)
+				self.conn.updateCheckTime()
+			except Exception, e:
+				self.lastError = e
 		finally:
 			if cursor is not None:
 				cursor.close()
@@ -209,18 +212,19 @@ class PySQLQuery(object):
 		cursor = None
 		
 		try:
-			self._GetConnection()
-			#Execute query and store results
-			cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
-			for query in queries:
-				self.conn.query = query
-				if query.__class__ == [].__class__:
-					self.affectedRows += cursor.execute(query[0], query[1])
-				else:
-					self.affectedRows += cursor.execute(query)
-			self.conn.updateCheckTime()
-		except Exception, e:
-			self.lastError = e
+			try:
+				self._GetConnection()
+				#Execute query and store results
+				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				for query in queries:
+					self.conn.query = query
+					if query.__class__ == [].__class__:
+						self.affectedRows += cursor.execute(query[0], query[1])
+					else:
+						self.affectedRows += cursor.execute(query)
+				self.conn.updateCheckTime()
+			except Exception, e:
+				self.lastError = e
 		finally:
 			if cursor is not None:
 				cursor.close()
