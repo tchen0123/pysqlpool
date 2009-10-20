@@ -49,7 +49,7 @@ class PySQLQuery(object):
 		@since: 5/12/2008
 		"""
 		if self.conn is not None:
-			self.Pool.returnConnection(self.conn)
+			self._ReturnConnection()
 		
 	def Query(self, query, *args):
 		"""
@@ -241,20 +241,14 @@ class PySQLQuery(object):
 		"""
 		#Attempt to get a connection. If all connections are in use and we have reached the max number of connections,
 		#we wait 1 second and try again.
+		#The Connection is returned locked to be thread safe
 		while self.conn is None:
 			self.conn = self.Pool.GetConnection(self.connInfo)
 			if self.conn is not None:
 				break
 			else:
 				time.sleep(1)
-				
-		#Acquire Connection Lock to be thread safe
-		self.conn.lock.acquire()
-		
-		#Test if connection is still active. If not reconnect.
-		if self.conn.TestConnection() is False:
-			self.conn.ReConnect()
-			
+
 	def _ReturnConnection(self):
 		"""
 		Returns a connection back to the pool
@@ -267,7 +261,6 @@ class PySQLQuery(object):
 				self.conn.Commit()
 					
 			self.Pool.returnConnection(self.conn)
-			self.conn.lock.release()
 			self.conn = None
 			
 	def escape_string(self, string):

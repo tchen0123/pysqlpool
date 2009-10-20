@@ -53,17 +53,24 @@ class PySQLPool(object):
 		@since: 5/12/2008
 		"""
 		self.Commit()
-		for key in self.__Pool['conn']:
-			try:
-				for conn in self.__Pool['conn'][key]:
-					try:
-						self.__Pool['conn'][key][conn].Close()
-					except Exception, e:
-						pass
-			except Exception, e:
-				pass
-		self.__Pool['conn'] = {}
-		
+		self.__Pool['lock'].acquire()
+		try:
+			for key in self.__Pool['conn']:
+				try:
+					for conn in self.__Pool['conn'][key]:
+						self.__Pool['conn'][key][conn].lock.acquire()
+						try:
+							self.__Pool['conn'][key][conn].Close()
+						except Exception, e:
+							pass
+						self.__Pool['conn'][key][conn].lock.release()
+
+				except Exception, e:
+					pass
+			self.__Pool['conn'] = {}
+		finally:
+			self.__Pool['lock'].release()
+
 	def Cleanup(self):
 		"""
 		Cleanup Timed out connections
@@ -74,16 +81,21 @@ class PySQLPool(object):
 		@since: 2/20/2009
 		"""
 		self.Commit()
-		for key in self.__Pool['conn']:
-			try:
-				for conn in self.__Pool['conn'][key]:
-					try:
-						self.__Pool['conn'][key][conn].TestConnection(forceCheck=True)
-					except Exception, e:
-						pass
-			except Exception, e:
-				pass
-		self.__Pool['conn'] = {}
+		self.__Pool['lock'].acquire()
+		try:
+			for key in self.__Pool['conn']:
+				try:
+					for conn in self.__Pool['conn'][key]:
+						self.__Pool['conn'][key][conn].lock.acquire()
+						try:
+							self.__Pool['conn'][key][conn].TestConnection(forceCheck=True)
+						except Exception, e:
+							pass
+						self.__Pool['conn'][key][conn].lock.release()
+				except Exception, e:
+					pass
+		finally:
+			self.__Pool['lock'].release()
 			
 	def Commit(self):
 		"""
@@ -92,15 +104,21 @@ class PySQLPool(object):
 		@author: Nick Verbeck
 		@since: 9/12/2008
 		"""
-		for key in self.__Pool['conn']:
-			try:
-				for conn in self.__Pool['conn'][key]:
-					try:
-						self.__Pool['conn'][key][conn].Commit()
-					except Exception, e:
-						pass
-			except Exception, e:
-				pass
+		self.__Pool['lock'].acquire()
+		try:
+			for key in self.__Pool['conn']:
+				try:
+					for conn in self.__Pool['conn'][key]:
+						self.__Pool['conn'][key][conn].lock.acquire()
+						try:
+							self.__Pool['conn'][key][conn].Commit()
+						except Exception, e:
+							pass
+						self.__Pool['conn'][key][conn].lock.release()
+				except Exception, e:
+					pass
+		finally:
+			self.__Pool['lock'].release()
 		
 	def GetConnection(self, PySQLConnectionObj):
 		"""
@@ -121,43 +139,44 @@ class PySQLPool(object):
 		
 		connection = None
 		
-		if self.__Pool['conn'].has_key(key):
-			for i in self.__Pool['conn'][key]:
-				#Grab an active connection if maxActivePerConnection is not meet
-				if self.__Pool['conn'][key][i].activeConnections < self.maxActivePerConnection:
+		try:
+			if self.__Pool['conn'].has_key(key):
+				for i in self.__Pool['conn'][key]:
+					#Grab an active connection if maxActivePerConnection is not meet
 					self.__Pool['conn'][key][i].lock.acquire()
-					if self.__Pool['conn'][key][i].TestConnection() is False:
-						self.__Pool['conn'][key][i].ReConnect()
-					self.__Pool['conn'][key][i].lock.release()
-					connection = self.__Pool['conn'][key][i]
-				#Force Release a connection if the query has been completed. 
-				#This solves a bug where some threaded apps would run faster then the pool could reallocate the connection. - Nick Verbeck
-				elif self.__Pool['conn'][key][i].query is None:
-					self.__Pool['conn'][key][i].lock.acquire()
-					self.__Pool['conn'][key][i].count = 0
-					if self.__Pool['conn'][key][i].TestConnection() is False:
-						self.__Pool['conn'][key][i].ReConnect()
-					self.__Pool['conn'][key][i].lock.release()
-					connection = self.__Pool['conn'][key][i]
-					
-			if connection is None:
-				#Create a new Connection is Max Connections is not meet
-				connKey = len(self.__Pool['conn'][key])
-				if connKey > self.maxActiveConnections:
-					connection = None
-				else:
-					self.__Pool['conn'][key][connKey] = PySQLConnectionManager(PySQLConnectionObj)
-					connection = self.__Pool['conn'][key][connKey]
-		#Create new Connection Pool Set
-		else:
-			self.__Pool['conn'][key] = {}
-			self.__Pool['conn'][key][0] = PySQLConnectionManager(PySQLConnectionObj)
-			connection = self.__Pool['conn'][key][0]
-		
-		if connection is not None:	
-			connection.activeConnections += 1
-			
-		self.__Pool['lock'].release()
+					try:
+						if self.__Pool['conn'][key][i].activeConnections < self.maxActivePerConnection:
+							if self.__Pool['conn'][key][i].TestConnection() is False:
+								self.__Pool['conn'][key][i].ReConnect()
+							connection = self.__Pool['conn'][key][i]
+						#Force Release a connection if the query has been completed. 
+						#This solves a bug where some threaded apps would run faster then the pool could reallocate the connection. - Nick Verbeck
+						elif self.__Pool['conn'][key][i].query is None:
+							self.__Pool['conn'][key][i].count = 0
+							if self.__Pool['conn'][key][i].TestConnection() is False:
+								self.__Pool['conn'][key][i].ReConnect()
+							connection = self.__Pool['conn'][key][i]
+					except Exception, e:
+						self.__Pool['conn'][key][i].lock.release()
+						raise
+				if connection is None:
+					#Create a new Connection is Max Connections is not meet
+					connKey = len(self.__Pool['conn'][key])
+					if connKey <= self.maxActiveConnections:
+						self.__Pool['conn'][key][connKey] = PySQLConnectionManager(PySQLConnectionObj)
+						connection = self.__Pool['conn'][key][connKey]
+						connection.lock.acquire()
+			#Create new Connection Pool Set
+			else:
+				self.__Pool['conn'][key] = {}
+				self.__Pool['conn'][key][0] = PySQLConnectionManager(PySQLConnectionObj)
+				connection = self.__Pool['conn'][key][0]
+				connection.lock.acquire()
+
+			if connection is not None:	
+				connection.activeConnections += 1
+		finally:
+			self.__Pool['lock'].release()
 		return connection
 	
 	def returnConnection(self, connObj):
@@ -169,4 +188,4 @@ class PySQLPool(object):
 		"""
 		connObj.activeConnections -= 1
 		connObj.query = None
-		
+		connObj.lock.release()
