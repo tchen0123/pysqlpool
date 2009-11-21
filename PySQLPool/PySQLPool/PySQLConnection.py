@@ -2,11 +2,14 @@
 @author: Nick Verbeck
 @since: 5/12/2008
 """
+import MySQLdb
+import datetime
+from threading import Semaphore
 
 try:
 	from hashlib import md5 
 except Exception, e:
-	import md5
+	from md5 import md5
 
 class PySQLConnection(object):
 	"""
@@ -59,14 +62,8 @@ class PySQLConnection(object):
 		else:
 			self.commitOnEnd = False
 			
-		hashStr = ''
-		for key in self.info:
-			hashStr += str(self.info[key])
-		
-		try:
-			self.key = md5(hashStr).hexdigest()
-		except Exception, e:
-			self.key = md5.new(hashStr).hexdigest()
+		hashStr = ''.join([str(x) for x in self.info.values()])
+		self.key = md5(hashStr).hexdigest()
 		
 	def __getattr__(self, name):
 		try:
@@ -74,14 +71,10 @@ class PySQLConnection(object):
 		except Exception, e:
 			return None
   
-import sys
-import MySQLdb
-import datetime
-from threading import Semaphore
 
 connection_timeout = datetime.timedelta(seconds=20)
 
-class PySQLConnectionManager:
+class PySQLConnectionManager(object):
 	"""
 	Physical Connection manager
 	
@@ -110,8 +103,7 @@ class PySQLConnectionManager:
 		
 	def updateCheckTime(self):
 		self.lastConnectionCheck = datetime.datetime.now()
-		
-		
+
 	def Connect(self):
 		"""
 		Creates a new physical connection to the database
