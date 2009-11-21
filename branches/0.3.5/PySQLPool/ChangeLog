@@ -1,0 +1,11 @@
+2009-11-21
+	* Added ChangeLog
+
+2009-10-20
+	* Fixes to Thread Locking Contention
+	* Improved Hash Generation for Pool Key
+	* Cleaned up Import Statements
+	* Starts to future improvements to thread based MySQL transactions
+
+2009-6-23
+	* Improved Python2.4 Support
