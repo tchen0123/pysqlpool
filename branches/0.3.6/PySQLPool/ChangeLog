@@ -1,3 +1,12 @@
+2009-11-27
+	* Started Docs
+	* Started "Getting Started" doc
+	* Finished main reference.rst doc
+	* Fixed code comment text
+	* Added doc build output
+	* Flagged TODO for removal of legacy limiter in PySQLPool
+	* Started Modules refernece docs
+
 2009-11-21
 	* Added ChangeLog
 

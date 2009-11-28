@@ -20,6 +20,7 @@ Contents:
    :maxdepth: 3
    
    tutorial.rst
+   reference.rst
 
 Indices and tables
 ==================
