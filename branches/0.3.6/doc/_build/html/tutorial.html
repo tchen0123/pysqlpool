@@ -79,7 +79,7 @@
 <div class="section" id="inserting-new-data">
 <h2>Inserting New Data<a class="headerlink" href="#inserting-new-data" title="Permalink to this headline">¶</a></h2>
 <p>Here is how you would insert a new row and get back its insert ID for Auto-Increment indexes</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="s">&#39;insert into table (&#39;</span><span class="n">column</span><span class="s">&#39;) values (&#39;</span><span class="mf">1</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">Query</span><span class="p">(</span><span class="s">&#39;insert into table (&#39;</span><span class="n">column</span><span class="s">&#39;) values (&#39;</span><span class="mi">1</span><span class="s">&#39;)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="s">&#39;Last Insert ID:&#39;</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">lastInsertID</span>
 <span class="go">Last Insert ID: 11</span>
 </pre></div>
@@ -114,7 +114,7 @@ you use, specifically the host/username/password/db, the max connection limiter 
 value. There currently is no way to set a limit per connection credentials.</p>
 <p>By default the limit is set to 10, but you can change it farely easy.:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">PySQLPool</span>
-<span class="n">PySQLPool</span><span class="o">.</span><span class="n">getNewPool</span><span class="p">()</span><span class="o">.</span><span class="n">maxActiveConnections</span> <span class="o">=</span> <span class="mf">1</span>
+<span class="n">PySQLPool</span><span class="o">.</span><span class="n">getNewPool</span><span class="p">()</span><span class="o">.</span><span class="n">maxActiveConnections</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
@@ -201,7 +201,7 @@ back to you a Python Generator that will fetch from the server row by row as you
     </div>
     <div class="footer">
       &copy; Copyright 2009, Nick Verbeck.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
     </div>
   </body>
 </html>

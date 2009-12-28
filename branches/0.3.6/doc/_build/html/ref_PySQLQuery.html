@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The PySQLPool.PySQLQuery Module &mdash; PySQLPool v0.3.6 documentation</title>
+    <title><no title> &mdash; PySQLPool v0.3.6 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -19,9 +19,7 @@
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PySQLPool v0.3.6 documentation" href="index.html" />
-    <link rel="up" title="PySQLPool Package Reference" href="reference.html" />
-    <link rel="prev" title="The PySQLPool.PySQLPool Module" href="ref_PySQLPool.html" /> 
+    <link rel="top" title="PySQLPool v0.3.6 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -30,11 +28,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="ref_PySQLPool.html" title="The PySQLPool.PySQLPool Module"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">PySQLPool v0.3.6 documentation</a> &raquo;</li>
-          <li><a href="reference.html" accesskey="U">PySQLPool Package Reference</a> &raquo;</li> 
+        <li><a href="index.html">PySQLPool v0.3.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -43,120 +37,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="the-pysqlpool-pysqlquery-module">
-<h1>The PySQLPool.PySQLQuery Module<a class="headerlink" href="#the-pysqlpool-pysqlquery-module" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="PySQLQuery">
-<em class="property">
-class </em><tt class="descname">PySQLQuery</tt><a class="headerlink" href="#PySQLQuery" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
-<dt id="PySQLQuery.Pool">
-<tt class="descname">Pool</tt><a class="headerlink" href="#PySQLQuery.Pool" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.connInfo">
-<tt class="descname">connInfo</tt><a class="headerlink" href="#PySQLQuery.connInfo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.commitOnEnd">
-<tt class="descname">commitOnEnd</tt><a class="headerlink" href="#PySQLQuery.commitOnEnd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.record">
-<tt class="descname">record</tt><a class="headerlink" href="#PySQLQuery.record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.rowcount">
-<tt class="descname">rowcount</tt><a class="headerlink" href="#PySQLQuery.rowcount" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.affectedRows">
-<tt class="descname">affectedRows</tt><a class="headerlink" href="#PySQLQuery.affectedRows" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.conn">
-<tt class="descname">conn</tt><a class="headerlink" href="#PySQLQuery.conn" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.lastError">
-<tt class="descname">lastError</tt><a class="headerlink" href="#PySQLQuery.lastError" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="PySQLQuery.lastInsertID">
-<tt class="descname">lastInsertID</tt><a class="headerlink" href="#PySQLQuery.lastInsertID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>PySQLConnectionObj</em>, <em>commitOnEnd = False</em><big>)</big><a class="headerlink" href="#PySQLQuery.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.__del__">
-<tt class="descname">__del__</tt><big>(</big><big>)</big><a class="headerlink" href="#PySQLQuery.__del__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.Query">
-<tt class="descname">Query</tt><big>(</big><em>query</em>, <em>*args</em><big>)</big><a class="headerlink" href="#PySQLQuery.Query" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.QueryOne">
-<tt class="descname">QueryOne</tt><big>(</big><em>query</em>, <em>*args</em><big>)</big><a class="headerlink" href="#PySQLQuery.QueryOne" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.executeMany">
-<tt class="descname">executeMany</tt><big>(</big><em>query</em>, <em>args</em><big>)</big><a class="headerlink" href="#PySQLQuery.executeMany" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.executeMulti">
-<tt class="descname">executeMulti</tt><big>(</big><em>queries</em><big>)</big><a class="headerlink" href="#PySQLQuery.executeMulti" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery._GetConnection">
-<tt class="descname">_GetConnection</tt><big>(</big><big>)</big><a class="headerlink" href="#PySQLQuery._GetConnection" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery._ReturnConnection">
-<tt class="descname">_ReturnConnection</tt><big>(</big><big>)</big><a class="headerlink" href="#PySQLQuery._ReturnConnection" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.escape_string">
-<tt class="descname">escape_string</tt><big>(</big><big>)</big><a class="headerlink" href="#PySQLQuery.escape_string" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="PySQLQuery.escape">
-<tt class="descname">escape</tt><big>(</big><big>)</big><a class="headerlink" href="#PySQLQuery.escape" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-
+  
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h4>Previous topic</h4>
-            <p class="topless"><a href="ref_PySQLPool.html"
-                                  title="previous chapter">The PySQLPool.PySQLPool Module</a></p>
             <h3>This Page</h3>
             <ul class="this-page-menu">
               <li><a href="_sources/ref_PySQLQuery.txt"
@@ -185,16 +72,12 @@ class </em><tt class="descname">PySQLQuery</tt><a class="headerlink" href="#PySQ
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="ref_PySQLPool.html" title="The PySQLPool.PySQLPool Module"
-             >previous</a> |</li>
-        <li><a href="index.html">PySQLPool v0.3.6 documentation</a> &raquo;</li>
-          <li><a href="reference.html" >PySQLPool Package Reference</a> &raquo;</li> 
+        <li><a href="index.html">PySQLPool v0.3.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2009, Nick Verbeck.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
     </div>
   </body>
 </html>

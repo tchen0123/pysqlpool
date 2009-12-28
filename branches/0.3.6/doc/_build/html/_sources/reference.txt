@@ -1,53 +1,87 @@
 .. "reference.rst" file
+.. moduleauthor:: NerdyNick <nerdynick@gmail.com>
+.. sectionauthor:: NerdyNick <nerdynick@gmail.com>
+.. sectionauthor:: NerdyNick <nerdynick@gmail.com>
 
-===========================
-PySQLPool Package Reference
-===========================
+:mod:`PySQLPool` - PySQLPool Package Structure
+==============================================
 
-.. attribute:: __version__
+.. attribute:: PySQLPool.__version__
    
    PySQLPool Version Number
 
-.. attribute:: __author__
+.. attribute:: PySQLPool.__author__
    
    PySQLPool Author String
 
 .. _getNewConnection:
-.. method:: getNewConnection(*args, **kargs)
+.. function:: PySQLPool.getNewConnection(*args, **kargs)
    
-   Fast method to generate a new PySQLConnection instance. Arguments are those of PySQLConnection_
+   Fast function to generate a new PySQLConnection instance. Arguments are those of PySQLConnection_
 
-.. method:: getNewQuery(connection = None, commitOnEnd=False)
-            getNewQuery(**kargs)
+.. function:: PySQLPool.getNewQuery([connection[, commitOnEnd[, **kargs]]])
    
    Fast method to generate a new PySQLQuery instance.
    
    If an instance of a PySQLConnection object is passes for the connection parameter. It will be used for the 
    connection. Otherwise \**kargs will be used to generate a PySQLConnection instance via the getNewConnection_ method.
 
-.. method:: getNewPool()
+.. function:: PySQLPool.getNewPool()
    
    Returns a reference to the current PySQLPool object
 
-.. method:: terminatePool()
+.. function:: PySQLPool.terminatePool()
    
    Causes PySQLPool to commit and terminate all your current MySQL connections
 
-.. method:: commitPool()
+.. function:: PySQLPool.commitPool()
    
    Causes PySQLPool to commit all your current MySQL connections
 
-.. method:: cleanupPool()
+.. function:: PySQLPool.cleanupPool()
    
    Causes PySQLPool to analyse all current MySQL connections, and clean up an dead connections.
   
-  
-Modules
-=======
 
-.. toctree::
-   :maxdepth: 3
-   
-   ref_PySQLConnection.rst
-   ref_PySQLPool.rst
-   ref_PySQLQuery.rst
+
+:mod:`PySQLPool.PySQLQuery`
+===========================
+
+.. class:: PySQLQuery(PySQLConnectionObj[, commitOnEnd])
+
+   .. attribute:: Pool
+
+   .. attribute:: connInfo
+
+   .. attribute:: commitOnEnd
+
+   .. attribute:: record
+
+   .. attribute:: rowcount
+
+   .. attribute:: affectedRows
+
+   .. attribute:: conn
+
+   .. attribute:: lastError
+
+   .. attribute:: lastInsertID
+
+   .. method:: __del__()
+
+   .. method:: Query(query, *args)
+
+   .. method:: QueryOne(query, *args)
+
+   .. method:: executeMany(query, args)
+
+   .. method:: executeMulti(queries)
+
+   .. method:: _GetConnection()
+
+   .. method:: _ReturnConnection()
+
+   .. method:: escape_string()
+
+   .. method:: escape()
+      
