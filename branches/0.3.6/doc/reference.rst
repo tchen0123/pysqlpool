@@ -3,8 +3,12 @@
 .. sectionauthor:: NerdyNick <nerdynick@gmail.com>
 .. sectionauthor:: NerdyNick <nerdynick@gmail.com>
 
-:mod:`PySQLPool` - PySQLPool Package Structure
-==============================================
+===========================
+PySQLPool Object Reference
+===========================
+
+:mod:`PySQLPool`
+==================
 
 .. attribute:: PySQLPool.__version__
    
@@ -45,69 +49,73 @@
 
 
 :mod:`PySQLPool.PySQLQuery`
-===========================
+=============================
 
 .. class:: PySQLQuery(PySQLConnectionObj[, commitOnEnd])
 
-   .. attribute:: Pool
+   .. attribute:: PySQLPool.PySQLQuery.Pool
 
-   .. attribute:: connInfo
+   .. attribute:: PySQLPool.PySQLQuery.connInfo
 
-   .. attribute:: commitOnEnd
+   .. attribute:: PySQLPool.PySQLQuery.commitOnEnd
 
-   .. attribute:: record
+   .. attribute:: PySQLPool.PySQLQuery.record
 
-   .. attribute:: rowcount
+   .. attribute:: PySQLPool.PySQLQuery.rowcount
 
-   .. attribute:: affectedRows
+   .. attribute:: PySQLPool.PySQLQuery.affectedRows
 
-   .. attribute:: conn
+   .. attribute:: PySQLPool.PySQLQuery.conn
 
-   .. attribute:: lastError
+   .. attribute:: PySQLPool.PySQLQuery.lastError
 
-   .. attribute:: lastInsertID
+   .. attribute:: PySQLPool.PySQLQuery.lastInsertID
 
-   .. method:: __del__()
+   .. method:: PySQLPool.PySQLQuery.__del__()
 
-   .. method:: Query(query, *args)
+   .. method:: PySQLPool.PySQLQuery.Query(query, *args)
 
-   .. method:: QueryOne(query, *args)
+   .. method:: PySQLPool.PySQLQuery.QueryOne(query, *args)
 
-   .. method:: executeMany(query, args)
+   .. method:: PySQLPool.PySQLQuery.executeMany(query, args)
 
-   .. method:: executeMulti(queries)
+   .. method:: PySQLPool.PySQLQuery.executeMulti(queries)
 
-   .. method:: _GetConnection()
+   .. method:: PySQLPool.PySQLQuery._GetConnection()
 
-   .. method:: _ReturnConnection()
+   .. method:: PySQLPool.PySQLQuery._ReturnConnection()
 
-   .. method:: escape_string()
+   .. method:: PySQLPool.PySQLQuery.escape_string()
 
-   .. method:: escape()
-      
- :mod:`PySQLPool.PySQLPool`
+   .. method:: PySQLPool.PySQLQuery.escape()
+
+
+
+:mod:`PySQLPool.PySQLPool`
 ===========================
 
- .. class:: PySQLPool()
+.. class:: PySQLPool()
 
-    .. attribute:: __pool
+   .. attribute:: PySQLPool.PySQLPool.__pool
     
-    .. attribute:: maxActiveConnections
+   .. attribute:: PySQLPool.PySQLPool.maxActiveConnections
     
-    .. attribute:: maxActivePerConnection
+   .. attribute:: PySQLPool.PySQLPool.maxActivePerConnection
     
-    .. method:: Terminate()
+   .. method:: PySQLPool.PySQLPool.Terminate()
     
-    .. method:: Cleanup()
+   .. method:: PySQLPool.PySQLPool.Cleanup()
     
-    .. method:: Commit()
+   .. method:: PySQLPool.PySQLPool.Commit()
     
-    .. method:: GetConnection(PySQLConnectionObj)
+   .. method:: PySQLPool.PySQLPool.GetConnection(PySQLConnectionObj)
     
-    .. method:: returnConnection(connObj)
-    
- :mod:`PySQLPool.PySQLConnection`
-===========================
+   .. method:: PySQLPool.PySQLPool.returnConnection(connObj)
+
+
+
+:mod:`PySQLPool.PySQLConnection`
+=================================
 
 .. attribute:: connection_timeout
 

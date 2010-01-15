@@ -14,13 +14,12 @@ Leaving all the work you have to do in your code is write MySQL Queries. Saving 
 
 .. _PySQLPool: http://www.code.google.com/p/pysqlpool/
 
-Contents:
-
 .. toctree::
    :maxdepth: 3
    
    tutorial.rst
    reference.rst
+   faqs.rst
 
 Indices and tables
 ==================
