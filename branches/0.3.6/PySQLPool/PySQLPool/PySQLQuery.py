@@ -31,7 +31,7 @@ class PySQLQuery(object):
 		@author: Nick Verbeck
 		@since: 5/12/2008
 		"""
-		self.Pool = PySQLPool()
+		self.Pool = PySQLPool() #TODO: Remove the use of this
 		self.connInfo = PySQLConnectionObj
 		self.commitOnEnd = commitOnEnd
 		self.record = {}
@@ -52,6 +52,13 @@ class PySQLQuery(object):
 			self._ReturnConnection()
 		
 	def Query(self, query, *args):
+		"""
+		@deprecated: Depracating in favor of proper code standards.
+		"""
+		return self.query(query, *args)
+		
+	#TODO: In the future lets decorate all our query calls with a connection fetching and releasing handler. Help to centralize all this logic for use in transactions in the future.
+	def query(self, query, *args):
 		"""
 		Execute the passed in query against the database
 		
@@ -122,8 +129,14 @@ class PySQLQuery(object):
 				raise self.lastError
 			else:
 				return self.affectedRows
-		
+	
 	def QueryOne(self, query, *args):
+		"""
+		@deprecated: Depracating in favor of proper code standards.
+		"""
+		return self.queryOne(query, *args)
+	
+	def queryOne(self, query, *args):
 		"""
 		Execute the passed in query against the database. 
 		Uses a Generator & fetchone to reduce your process memory size.
@@ -264,6 +277,15 @@ class PySQLQuery(object):
 			self.conn = None
 			
 	def escape_string(self, string):
+		"""
+		This is just an adapter function to allow previus users of MySQLdb. 
+		To be familier with there names of functions.
+		
+		@see: escapeString
+		"""
+		return self.escapeString(string)
+	
+	def escapeString(self, string):
 		"""
 		Escapes a string for use in a query
 		

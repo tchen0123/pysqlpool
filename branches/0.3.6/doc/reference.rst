@@ -51,31 +51,62 @@ PySQLPool Object Reference
 :mod:`PySQLPool.PySQLQuery`
 =============================
 
+The PySQLQuery class is by far one of the biggest work horses in the whole PySQLPool library, next to the PySQLPool class.
+It is responsable for handaling the execution of your query(s). Which in itself is a lot of work. PySQLQuery handles talking 
+to the heart of PySQLPool, The PySQLPool class. To fetch a new connection or one that has been estabished. It then creates a 
+MySQL cursor object to handle the execution of your sql statement against your MySQL database. 
+
 .. class:: PySQLQuery(PySQLConnectionObj[, commitOnEnd])
 
    .. attribute:: PySQLPool.PySQLQuery.Pool
+   
+       Used to store a reference to the PySQLPool object
 
    .. attribute:: PySQLPool.PySQLQuery.connInfo
+   
+       Used to store the connection information to be used for talking to the db. This is a PySQLConnection instance.
 
    .. attribute:: PySQLPool.PySQLQuery.commitOnEnd
+   
+       A boolean flag used to tell the connection that it should auto commit your statement at the end of its execution.
 
    .. attribute:: PySQLPool.PySQLQuery.record
+   
+       A storage reference to your results that where returned from your last select statement.
 
    .. attribute:: PySQLPool.PySQLQuery.rowcount
+   
+       The number of rows returned by your last select statement.
 
    .. attribute:: PySQLPool.PySQLQuery.affectedRows
+   
+       The number of affected rows that your last delete/insert/update statement affected.
 
    .. attribute:: PySQLPool.PySQLQuery.conn
+   
+       An internaly used reference to the current locked connection as returned by the PySQLPool class. This is an 
+       instance of a PySQLConnectionManager object.
 
    .. attribute:: PySQLPool.PySQLQuery.lastError
+   
+       A reference to the last MySQL error as returned by the under lying MySQLdb library. You can reference this if you need. 
+       But PySQLQuery will raise this error forward for you to catch yourself.
 
    .. attribute:: PySQLPool.PySQLQuery.lastInsertID
+   
+       The last auto incrament ID that an insert statement create.
 
    .. method:: PySQLPool.PySQLQuery.__del__()
+   
+       The destructor method used for freeing up any locked connections that may not have be release do to some reason. 
 
-   .. method:: PySQLPool.PySQLQuery.Query(query, *args)
+   .. method:: PySQLPool.PySQLQuery.query(query, *args)
+   .. method:: PySQLPool.PySQLQuery.Query(query, *args) - Depracating to fit correct code standards.
+   
+       
 
-   .. method:: PySQLPool.PySQLQuery.QueryOne(query, *args)
+   .. method:: PySQLPool.PySQLQuery.queryOne(query, *args)
+   .. method:: PySQLPool.PySQLQuery.QueryOne(query, *args) - Depracating to fit correct code standards.
 
    .. method:: PySQLPool.PySQLQuery.executeMany(query, args)
 
