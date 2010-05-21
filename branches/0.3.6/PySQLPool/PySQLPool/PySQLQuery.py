@@ -50,6 +50,23 @@ class PySQLQuery(object):
 		"""
 		if self.conn is not None:
 			self._ReturnConnection()
+	
+	def __enter__(self):
+		"""
+		Starts transaction, used with the 'with' statement.
+		@author: Denis Malinovsky
+		@since: 5/21/2010
+		"""
+		self.Query('START TRANSACTION')
+	
+	def __exit__(self, exc_type, exc_value, traceback):
+		"""
+		Commits transaction, if no exception was raised.
+		@author: Denis Malinovsky
+		@since: 5/21/2010
+		"""
+		if exc_type is None:
+			self.Query('COMMIT')
 		
 	def Query(self, query, *args):
 		"""
