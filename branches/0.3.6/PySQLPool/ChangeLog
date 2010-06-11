@@ -1,43 +1,15 @@
-2010-01-14
-	* Documentation Updates
-		* Adds FAQs page
-
-2010-01-06
-	* Documentation Updates
-	* ChangeLog Updates
-
-2009-12-28
-	* Documentation updates
-	* Remove documentation build output from repo
-	* Updates to README
-	* Provided better support for favicon in doc build output
-
-2009-12-04
-	* Documentation updates
-
-2009-11-28
+0.3.6
+	* Started Sphinx/RST style Documentation
 	* Added LICENSE File
 	* Added README File
 	* Updated Email in setup.py
 	* Added favicon to docs
-
-2009-11-27
-	* Started Docs
-	* Started "Getting Started" doc
-	* Finished main reference.rst doc
-	* Fixed code comment text
-	* Added doc build output
-	* Flagged TODO for removal of legacy limiter in PySQLPool
-	* Started Modules refernece docs
-
-2009-11-21
 	* Added ChangeLog
-
-2009-10-20
 	* Fixes to Thread Locking Contention
 	* Improved Hash Generation for Pool Key
 	* Cleaned up Import Statements
 	* Starts to future improvements to thread based MySQL transactions
-
-2009-6-23
 	* Improved Python2.4 Support
+	* Added returns of affect rows to queryMulti and queryMany
+	* Added alias's for executeMulti, executeMany, execute, executeOne matching queryMulti, queryMany, query, queryOne respectfully
+	* Added support for use of with. ie Content Management. Submitted by Denis Malinovsky
