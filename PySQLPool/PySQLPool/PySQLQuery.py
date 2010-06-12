@@ -33,10 +33,10 @@ class PySQLQuery(object):
 		"""
 		self.Pool = PySQLPool() #TODO: Remove the use of this
 		self.connInfo = PySQLConnectionObj
-		self.commitOnEnd = commitOnEnd
 		self.record = {}
 		self.rowcount = 0
 		self.affectedRows = None
+		#The Real Connection to the DB
 		self.conn = None
 		self.lastError = None
 		self.lastInsertID = None
@@ -107,7 +107,7 @@ class PySQLQuery(object):
 				self.conn.query = query
 				
 				#Execute query and store results
-				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				cursor = self.conn.getCursor()
 				self.affectedRows = cursor.execute(query, args)
 				self.lastInsertID = self.conn.connection.insert_id()
 				self.rowcount = cursor.rowcount
@@ -173,7 +173,7 @@ class PySQLQuery(object):
 				self._GetConnection()
 				self.conn.query = query
 				#Execute query
-				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				cursor = self.conn.getCursor()
 				self.affectedRows = cursor.execute(query, args)
 				self.conn.updateCheckTime()
 				while 1:
@@ -219,7 +219,7 @@ class PySQLQuery(object):
 				self._GetConnection()
 				self.conn.query = query
 				#Execute query and store results
-				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				cursor = self.conn.getCursor()
 				self.affectedRows = cursor.executemany(query, args)
 				self.conn.updateCheckTime()
 			except Exception, e:
@@ -251,7 +251,7 @@ class PySQLQuery(object):
 			try:
 				self._GetConnection()
 				#Execute query and store results
-				cursor = self.conn.connection.cursor(MySQLdb.cursors.DictCursor)
+				cursor = self.conn.getCursor()
 				for query in queries:
 					self.conn.query = query
 					if query.__class__ == [].__class__:
