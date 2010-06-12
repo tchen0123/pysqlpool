@@ -24,6 +24,7 @@ class PySQLPool(object):
 	#Max Connections that can be opened among all connections
 	maxActiveConnections = 10
 	
+	#TODO: Remove all use of this limiter as the new locking for thread safe will not work with this.
 	#Max Active Query objects against 1 connection
 	maxActivePerConnection = 1
 	
@@ -160,7 +161,7 @@ class PySQLPool(object):
 						self.__Pool['conn'][key][i].lock.release()
 						raise
 				if connection is None:
-					#Create a new Connection is Max Connections is not meet
+					#Create a new Connection if Max Connections is not meet
 					connKey = len(self.__Pool['conn'][key])
 					if connKey <= self.maxActiveConnections:
 						self.__Pool['conn'][key][connKey] = PySQLConnectionManager(PySQLConnectionObj)
