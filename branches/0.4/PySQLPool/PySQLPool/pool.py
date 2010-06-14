@@ -4,7 +4,7 @@
 @version: 0.2
 """
 from threading import Condition
-from PySQLConnection import PySQLConnectionManager
+from connection import PySQLConnectionManager
 
 class PySQLPool(object):
 	"""
