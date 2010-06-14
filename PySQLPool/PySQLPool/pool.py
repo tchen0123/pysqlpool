@@ -3,7 +3,6 @@
 @since: date 5/12/2008
 @version: 0.2
 """
-
 from threading import Condition
 from PySQLConnection import PySQLConnectionManager
 
