@@ -5,6 +5,8 @@ import PySQLPool
 
 setup(name='PySQLPool',
       version=PySQLPool.__version__,
+      license='LGPL V3',
+      platforms=['ALL'],
       description='Python MySQL Connection Pooling and MySQL Query management',
       author='Nick Verbeck',
       author_email='nerdynick@gmail.com',
@@ -16,5 +18,7 @@ setup(name='PySQLPool',
                      'Programming Language :: Python',
                      'Operating System :: OS Independent',
                      'Development Status :: 5 - Production/Stable'],
+      requires=['MySQL-python'],
+      provides=['pysqlpool','PySQLPool'],
       packages=['PySQLPool'],
      )
