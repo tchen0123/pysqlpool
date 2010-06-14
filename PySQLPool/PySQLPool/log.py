@@ -5,8 +5,7 @@ Created on Jun 14, 2010
 '''
 from logging import Handler
 import logging
-import PySQLPool.logger
-import PySQLPool.log_level
+import PySQLPool
 
 class LogHandler(Handler):
     def __init__(self, level=PySQLPool.log_level):
