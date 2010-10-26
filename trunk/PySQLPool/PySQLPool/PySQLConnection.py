@@ -46,6 +46,14 @@ class PySQLConnection(object):
 			self.info['db'] = kargs['db']
 		if kargs.has_key('port'):
 			self.info['port'] = int(kargs['port'])
+		if kargs.has_key('connect_timeout'):
+			self.info['connect_timeout'] = kargs['connect_timeout']
+		if kargs.has_key('use_unicode'):
+			self.info['use_unicode'] = kargs['use_unicode'])
+		if kargs.has_key('charset'):
+			self.info['charset'] = kargs['charset'])
+		if kargs.has_key('local_infile'):
+			self.info['local_infile'] = kargs['local_infile']
 			
 		#Support Legacy Username
 		if kargs.has_key('username'):
