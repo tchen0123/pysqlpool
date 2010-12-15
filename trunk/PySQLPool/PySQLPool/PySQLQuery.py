@@ -309,7 +309,7 @@ class PySQLQuery(object):
 		
 		@see: escapeString
 		"""
-		return self.escape_string(string)
+		return MySQLdb.escape_string(string)
 	
 	def escapeString(self, string):
 		"""
